@@ -477,41 +477,6 @@
 					<goals>deploy</goals>
 				</configuration>
 			</plugin>
-
-			<!-- Aggregate JavaDoc for use with autoCompleteResponder -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.1.1</version>
-				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>javadoc</goal>
-						</goals>
-						<configuration>
-							<doclet>nl.praegus.doclets.FixtureDocGenerator</doclet>
-							<docletArtifact>
-								<groupId>nl.praegus</groupId>
-								<artifactId>fixture-doc-generator</artifactId>
-								<version>1.0</version>
-							</docletArtifact>
-							<excludePackageNames>nl.hsac.fitnesse.sample:
-								nl.hsac.fitnesse.junit:
-								nl.hsac.fitnesse.junit.*:
-								nl.hsac.fitnesse.slim.*:
-								nl.hsac.fitnesse.fixture.util:
-								nl.hsac.fitnesse.fixture.util.*:
-								nl.hsac.fitnesse.fixture.slim.web.annotation:
-								nl.hsac.fitnesse.fixture
-							</excludePackageNames>
-							<reportOutputDirectory>${project.basedir}/src/main/resources/META-INF/</reportOutputDirectory>
-							<useStandardDocletOptions>false</useStandardDocletOptions>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 
