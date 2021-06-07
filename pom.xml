@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>nl.hsac.fruffel</groupId>
+	<groupId>nl.hsac</groupId>
 	<artifactId>hsac-fitnesse-fixtures</artifactId>
-	<version>4.27-SNAPSHOT</version>
-	<url>https://github.com/fhoeben/hsac-fitnesse-fixtures</url>
+	<version>4.27.3-FRUFFEL</version>
+	<url>https://github.com/fruffel/hsac-fitnesse-fixtures</url>
 	<name>HSAC's FitNesse Fixtures</name>
 	<description>Fixtures to assist in testing via FitNesse</description>
 
