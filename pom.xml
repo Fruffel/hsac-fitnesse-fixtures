@@ -30,9 +30,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git://github.com/fhoeben/hsac-fitnesse-fixtures.git</connection>
-		<url>https://github.com/fhoeben/hsac-fitnesse-fixtures.git</url>
-		<developerConnection>scm:git:git://github.com/fhoeben/hsac-fitnesse-fixtures.git</developerConnection>
+		<connection>scm:git:git://github.com/fruffel/hsac-fitnesse-fixtures.git</connection>
+		<url>https://github.com/fruffel/hsac-fitnesse-fixtures.git</url>
+		<developerConnection>scm:git:git://github.com/fruffel/hsac-fitnesse-fixtures.git</developerConnection>
 	</scm>
 
 	<properties>
@@ -542,15 +542,10 @@
 	</profiles>
 
 	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<name>Maven Central Snapshot Repository</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
 		<repository>
-			<id>ossrh</id>
-			<name>Maven Central Staging Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+			<id>repsy</id>
+			<name>My Private Maven Repository on Repsy</name>
+			<url>https://repo.repsy.io/mvn/fruffel/hsac</url>
 		</repository>
 	</distributionManagement>
 
