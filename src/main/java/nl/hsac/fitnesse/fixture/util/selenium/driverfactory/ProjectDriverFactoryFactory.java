@@ -1,5 +1,7 @@
 package nl.hsac.fitnesse.fixture.util.selenium.driverfactory;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -20,42 +22,37 @@ public class ProjectDriverFactoryFactory {
         String browserName = browser.toLowerCase();
         switch (browserName) {
             case "firefox": {
-                String driverPath = getExecutable("geckodriver");
-                setPropertyValue("webdriver.gecko.driver", driverPath);
-                driverClass = FirefoxDriver.class.getName();
+                Class<? extends WebDriver> driver = FirefoxDriver.class;
+                driverClass = driver.getName();
                 break;
             }
             case "safari": {
-                driverClass = SafariDriver.class.getName();
+                Class<? extends WebDriver> driver = SafariDriver.class;
+                driverClass = driver.getName();
                 break;
             }
             case "chrome mobile emulation":
                 Map<String, Object> chromeOptions = new HashMap<>();
-                chromeOptions.put("mobileEmulation", profile);
                 profile = chromeOptions;
             case "chrome": {
-                String driverPath = getExecutable("chromedriver");
-                setPropertyValue("webdriver.chrome.driver", driverPath);
-                driverClass = ChromeDriver.class.getName();
+                Class<? extends WebDriver> driver = ChromeDriver.class;
+                driverClass = driver.getName();
                 break;
             }
             case "microsoftedge":
             case "edge": {
-                String driverPath = getExecutable("edgedriver");
-                setPropertyValue("webdriver.edge.driver", driverPath);
-                driverClass = EdgeDriver.class.getName();
+                Class<? extends WebDriver> driver = EdgeDriver.class;
+                driverClass = driver.getName();
                 break;
             }
             case "internet explorer": {
-                String driverPath = getExecutable("internetexplorerdriver");
-                setPropertyValue("webdriver.ie.driver", driverPath);
-                driverClass = InternetExplorerDriver.class.getName();
+                Class<? extends WebDriver> driver = InternetExplorerDriver.class;
+                driverClass = driver.getName();
                 break;
             }
             case "phantomjs": {
-                String driverPath = getExecutable("phantomjs");
-                setPropertyValue("phantomjs.binary.path", driverPath);
-                driverClass = PhantomJSDriver.class.getName();
+                Class<? extends WebDriver> driver = PhantomJSDriver.class;
+                driverClass = driver.getName();
                 break;
             }
             default:

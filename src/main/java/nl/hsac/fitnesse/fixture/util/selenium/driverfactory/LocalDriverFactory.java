@@ -1,5 +1,6 @@
 package nl.hsac.fitnesse.fixture.util.selenium.driverfactory;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -40,17 +41,21 @@ public class LocalDriverFactory implements DriverFactory {
             Object driver;
 
             if ("firefoxdriver".equalsIgnoreCase(driverClass.getSimpleName())) {
+                WebDriverManager.firefoxdriver().setup();
                 FirefoxProfile fxProfile = getFirefoxProfile(profile);
                 FirefoxOptions options = new FirefoxOptions().setProfile(fxProfile);
                 driver = new FirefoxDriver(options);
             } else if ("chromedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
+                WebDriverManager.chromedriver().setup();
                 DesiredCapabilities capabilities = getChromeMobileCapabilities(profile);
                 DriverFactory.addDefaultCapabilities(capabilities);
                 driver = new ChromeDriver(capabilities);
             } else if ("internetexplorerdriver".equalsIgnoreCase(driverClass.getSimpleName())) {
+                WebDriverManager.iedriver().setup();
                 InternetExplorerOptions ieOptions = getInternetExplorerOptions(profile);
                 driver = new InternetExplorerDriver(ieOptions);
             } else if ("edgedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
+                WebDriverManager.edgedriver().setup();
                 DesiredCapabilities edgeOptions = getChromiumEdgeOptions(profile);
                 driver = new EdgeDriver(edgeOptions);
             } else {
