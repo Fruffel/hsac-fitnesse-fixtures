@@ -541,12 +541,4 @@
 		</profile>
 	</profiles>
 
-	<distributionManagement>
-		<repository>
-			<id>repsy</id>
-			<name>My Private Maven Repository on Repsy</name>
-			<url>https://repo.repsy.io/mvn/fruffel/hsac</url>
-		</repository>
-	</distributionManagement>
-
 </project>
