@@ -47,6 +47,7 @@ public class LocalDriverFactory implements DriverFactory {
                 driver = new FirefoxDriver(options);
             } else if ("chromedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
                 WebDriverManager.chromedriver().setup();
+                WebDriverManager.chromedriver().browserVersionDetectionCommand("chromium-browser --version");
                 DesiredCapabilities capabilities = getChromeMobileCapabilities(profile);
                 DriverFactory.addDefaultCapabilities(capabilities);
                 driver = new ChromeDriver(capabilities);
