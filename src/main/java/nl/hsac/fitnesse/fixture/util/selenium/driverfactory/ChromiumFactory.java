@@ -16,6 +16,7 @@ import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -142,10 +143,13 @@ public class ChromiumFactory {
     }
 
     public String getProperties(String value) throws IOException {
-        String fileName = "project.properties";
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(fileName).getFile());
-        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+        Path str = Paths.get(System.getProperty("user.dir") + "/chromium.properties");
+
+        if (!System.getProperty("user.dir").contains("wiki")) {
+            str = Paths.get(str + "/wiki");
+        }
+
+        try (FileInputStream fileInputStream = new FileInputStream(str.toFile())) {
             Properties prop = new Properties();
             prop.load(fileInputStream);
 

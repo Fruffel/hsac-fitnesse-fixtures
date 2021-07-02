@@ -55,7 +55,6 @@ public class LocalDriverFactory implements DriverFactory {
                 WebDriverManager.chromedriver().browserVersionDetectionCommand("chromium-browser --version");
 
                 DesiredCapabilities capabilities = getChromeMobileCapabilities(profile);
-
                 if (Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
                     chromiumFactory.downloadChromium();
                 }
@@ -146,11 +145,8 @@ public class LocalDriverFactory implements DriverFactory {
             }
 
             Path str = Paths.get(System.getProperty("user.dir"));
-            if (str.toString().contains(".wiki")) {
-                str = str.getParent();
-            }
 
-            String binary = Paths.get(str + "./chromium/chrome.exe").toString();
+            String binary = Paths.get(str + "/chromium/chrome.exe").toString();
             profile.put("binary", binary);
         }
 
