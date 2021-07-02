@@ -13,6 +13,10 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,6 +26,7 @@ public class LocalDriverFactory implements DriverFactory {
     private String driverClassName;
     private Class<? extends WebDriver> driverClass;
     private Map<String, Object> profile;
+    private static final ChromiumFactory chromiumFactory = new ChromiumFactory();
 
     protected LocalDriverFactory() {
 
@@ -48,7 +53,13 @@ public class LocalDriverFactory implements DriverFactory {
             } else if ("chromedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
                 WebDriverManager.chromedriver().setup();
                 WebDriverManager.chromedriver().browserVersionDetectionCommand("chromium-browser --version");
+
                 DesiredCapabilities capabilities = getChromeMobileCapabilities(profile);
+
+                if (Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
+                    chromiumFactory.downloadChromium();
+                }
+
                 DriverFactory.addDefaultCapabilities(capabilities);
                 driver = new ChromeDriver(capabilities);
             } else if ("internetexplorerdriver".equalsIgnoreCase(driverClass.getSimpleName())) {
@@ -102,6 +113,7 @@ public class LocalDriverFactory implements DriverFactory {
      * Set firefox profile. For example to make sure text/csv file is downloaded without asking (convenient if run on buildserver), do:
      * |script           |selenium driver setup                                                                                               |
      * |start driver for |firefox              |with profile|!{browser.download.folderList:2,browser.helperApps.neverAsk.saveToDisk:text/csv}||
+     *
      * @param profile setting from subtable
      * @return firefox profile with specified settings
      */
@@ -125,11 +137,27 @@ public class LocalDriverFactory implements DriverFactory {
         return fxProfile;
     }
 
-    public static DesiredCapabilities getChromeMobileCapabilities(Map<String, Object> profile) {
+    public static DesiredCapabilities getChromeMobileCapabilities(Map<String, Object> profile) throws IOException {
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+
+        if (Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
+            if (profile == null) {
+                profile = new HashMap<>();
+            }
+
+            Path str = Paths.get(System.getProperty("user.dir"));
+            if (str.toString().contains(".wiki")) {
+                str = str.getParent();
+            }
+
+            String binary = Paths.get(str + "./chromium/chrome.exe").toString();
+            profile.put("binary", binary);
+        }
+
         if (profile != null) {
             capabilities.setCapability(ChromeOptions.CAPABILITY, profile);
         }
+
         return capabilities;
     }
 
@@ -146,7 +174,7 @@ public class LocalDriverFactory implements DriverFactory {
     public static DesiredCapabilities getChromiumEdgeOptions(Map<String, Object> profile) {
         DesiredCapabilities capabilities = DesiredCapabilities.edge();
         if (profile != null) {
-           capabilities.setCapability("ms:edgeOptions", profile);
+            capabilities.setCapability("ms:edgeOptions", profile);
         }
         return capabilities;
     }
