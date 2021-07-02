@@ -24,12 +24,12 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class ChromiumFactory {
-    private final File version = new File("./ChromiumVersion.txt");
-    private final File chrome7z = new File("./chromiumTemp/chrome.7z");
-    private final File chromiumTemp = new File("./chromiumTemp");
-    private final String chrome7zTemp = "./chromiumTemp/chrome.7z";
-    private final File chromiumTempBin = new File("./chromiumTemp/Chrome-bin");
-    private final File chromium = new File("./chromium");
+    private final File version = new File(getLoc("ChromiumVersion.txt"));
+    private final File chrome7z = new File(getLoc("chromiumTemp/chrome.7z"));
+    private final File chromiumTemp = new File(getLoc("chromiumTemp"));
+    private final String chrome7zTemp = getLoc("chromiumTemp/chrome.7z");
+    private final File chromiumTempBin = new File(getLoc("chromiumTemp/Chrome-bin"));
+    private final File chromium = new File(getLoc("chromium"));
 
     public void downloadChromium() {
         TagAndUrl tagAndUrl = getTagAndUrl();
@@ -143,11 +143,7 @@ public class ChromiumFactory {
     }
 
     public String getProperties(String value) throws IOException {
-        Path str = Paths.get(System.getProperty("user.dir") + "/chromium.properties");
-
-        if (!System.getProperty("user.dir").contains("wiki")) {
-            str = Paths.get(str + "/wiki");
-        }
+        Path str = Paths.get(getLoc("chromium.properties"));
 
         try (FileInputStream fileInputStream = new FileInputStream(str.toFile())) {
             Properties prop = new Properties();
@@ -155,6 +151,15 @@ public class ChromiumFactory {
 
             return prop.getProperty(value);
         }
+    }
+
+    public String getLoc(String file) {
+        Path str = Paths.get(System.getProperty("user.dir"));
+        if (!System.getProperty("user.dir").contains("wiki")) {
+            str = Paths.get(System.getProperty("user.dir") + "/wiki");
+        }
+
+        return str + "/" + file;
     }
 
     private static class TagAndUrl {

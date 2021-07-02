@@ -144,9 +144,7 @@ public class LocalDriverFactory implements DriverFactory {
                 profile = new HashMap<>();
             }
 
-            Path str = Paths.get(System.getProperty("user.dir"));
-
-            String binary = Paths.get(str + "/chromium/chrome.exe").toString();
+            String binary = Paths.get(chromiumFactory.getLoc("chromium/chrome.exe")).toString();
             profile.put("binary", binary);
         }
 
