@@ -14,10 +14,10 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 /**
  * Creates a webdriver at the local machine.
@@ -51,14 +51,19 @@ public class LocalDriverFactory implements DriverFactory {
                 FirefoxOptions options = new FirefoxOptions().setProfile(fxProfile);
                 driver = new FirefoxDriver(options);
             } else if ("chromedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
-                WebDriverManager.chromedriver().setup();
-                WebDriverManager.chromedriver().browserVersionDetectionCommand("chromium-browser --version");
-
-                DesiredCapabilities capabilities = getChromeMobileCapabilities(profile);
                 if (Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
-                    chromiumFactory.downloadChromium();
+                    ChromiumFactory.TagAndUrl tagAndUrl = chromiumFactory.downloadChromium();
+                    if (tagAndUrl.getTag() != null) {
+                        Matcher matcher = chromiumFactory.getMatcherFromTag(tagAndUrl.getTag());
+                        if (matcher.find()) {
+                            WebDriverManager.chromedriver().browserVersion(matcher.group(1));
+                        }
+                    }
                 }
 
+                WebDriverManager.chromedriver().browserVersionDetectionCommand("chromium-browser --version");
+                WebDriverManager.chromedriver().setup();
+                DesiredCapabilities capabilities = getChromeMobileCapabilities(profile);
                 DriverFactory.addDefaultCapabilities(capabilities);
                 driver = new ChromeDriver(capabilities);
             } else if ("internetexplorerdriver".equalsIgnoreCase(driverClass.getSimpleName())) {

@@ -17,11 +17,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class ChromiumFactory {
     private final File version = new File(getLoc("ChromiumVersion.txt"));
@@ -31,7 +29,7 @@ public class ChromiumFactory {
     private final File chromiumTempBin = new File(getLoc("chromiumTemp/Chrome-bin"));
     private final File chromium = new File(getLoc("chromium"));
 
-    public void downloadChromium() {
+    public TagAndUrl downloadChromium() {
         TagAndUrl tagAndUrl = getTagAndUrl();
 
         try {
@@ -39,10 +37,8 @@ public class ChromiumFactory {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(version));
                 String v = bufferedReader.readLine();
 
-                String regex = "([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)";
-                Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(v);
-                Matcher matcher2 = pattern.matcher(tagAndUrl.getTag());
+                Matcher matcher = getMatcherFromTag(v);
+                Matcher matcher2 = getMatcherFromTag(tagAndUrl.getTag());
 
                 if (matcher.find() && matcher2.find()) {
                     int fileG1 = Integer.parseInt(matcher.group(1));
@@ -64,6 +60,14 @@ public class ChromiumFactory {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        return tagAndUrl;
+    }
+
+    public Matcher getMatcherFromTag(String tag) {
+        String regex = "([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)";
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(tag);
     }
 
     private TagAndUrl getTagAndUrl() {
@@ -110,19 +114,7 @@ public class ChromiumFactory {
         }
     }
 
-    private boolean walkDeleteFiles(File fileToBeDeleted) throws IOException {
-        Path pathToBeDeleted = fileToBeDeleted.toPath();
-
-        try (Stream<Path> walk = Files.walk(pathToBeDeleted)) {
-            walk.sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(File::delete);
-        }
-
-        return Files.exists(pathToBeDeleted);
-    }
-
-    private void createVersionFile(String location, String tag) {
+    private void createVersionFile(String tag) {
         try (FileWriter fileWriter = new FileWriter(version.toString())) {
             fileWriter.write(tag);
         } catch (IOException e) {
@@ -132,14 +124,14 @@ public class ChromiumFactory {
     }
 
     private void createChromium(URL downloadUrl, String tag) throws IOException {
-        createVersionFile(version.toString(), tag);
+        createVersionFile(tag);
         FileUtils.copyURLToFile(downloadUrl, chrome7z);
         decompress(chrome7zTemp, chromiumTemp);
         if (Files.exists(chromium.toPath())) {
-            walkDeleteFiles(chromium);
+            FileUtils.deleteDirectory(chromium);
         }
         FileUtils.moveDirectory(chromiumTempBin, chromium);
-        walkDeleteFiles(chromiumTemp);
+        FileUtils.deleteDirectory(chromiumTemp);
     }
 
     public String getProperties(String value) throws IOException {
@@ -162,7 +154,7 @@ public class ChromiumFactory {
         return str + "/" + file;
     }
 
-    private static class TagAndUrl {
+    static class TagAndUrl {
         private URL url;
         private String tag;
 
