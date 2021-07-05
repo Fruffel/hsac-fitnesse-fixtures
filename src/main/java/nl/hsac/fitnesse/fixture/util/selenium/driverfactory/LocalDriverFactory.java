@@ -2,6 +2,7 @@ package nl.hsac.fitnesse.fixture.util.selenium.driverfactory;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
+import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -52,7 +53,7 @@ public class LocalDriverFactory implements DriverFactory {
                 FirefoxOptions options = new FirefoxOptions().setProfile(fxProfile);
                 driver = new FirefoxDriver(options);
             } else if ("chromedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
-                if (Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
+                if (SystemUtils.IS_OS_WINDOWS && Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
                     ChromiumFactory.TagAndUrl tagAndUrl = chromiumFactory.downloadChromium();
                     if (tagAndUrl.getTag() != null) {
                         Matcher matcher = chromiumFactory.getMatcherFromTag(tagAndUrl.getTag());
