@@ -128,10 +128,10 @@ public class ChromiumFactory {
         FileUtils.copyURLToFile(downloadUrl, chrome7z);
         decompress(chrome7zTemp, chromiumTemp);
         if (Files.exists(chromium.toPath())) {
-            FileUtils.deleteDirectory(chromium);
+            FileUtils.forceDelete(chromium);
         }
         FileUtils.moveDirectory(chromiumTempBin, chromium);
-        FileUtils.deleteDirectory(chromiumTemp);
+        FileUtils.forceDelete(chromiumTemp);
     }
 
     public String getProperties(String value) throws IOException {
