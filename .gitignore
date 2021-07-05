@@ -48,6 +48,7 @@ wiki/FitNesseRoot/HsacExamples/SlimTests/UtilityFixtures/GeneratedSymbolicLinkSu
 wiki/FitNesseRoot/ReRunLastFailures*.wiki
 /src/main/resources/META-INF/apidocs/
 wiki/chromium
+wiki/chromiumTemp
 wiki/ChromiumVersion.txt
 src/main/resources/project.properties
 wiki/webdriver

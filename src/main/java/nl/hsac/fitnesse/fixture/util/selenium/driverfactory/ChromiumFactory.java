@@ -18,7 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -125,21 +124,16 @@ public class ChromiumFactory {
     }
 
     private void createChromium(URL downloadUrl, String tag) throws IOException {
-        if (Files.exists(chromium.toPath())) {
-            FileUtils.deleteQuietly(chromium);
-        }
         createVersionFile(tag);
         FileUtils.copyURLToFile(downloadUrl, chrome7z);
         decompress(chrome7zTemp, chromiumTemp);
-        FileUtils.moveDirectory(chromiumTempBin, chromium);
-        boolean deletedTemp = FileUtils.deleteQuietly(chromiumTemp);
-        while (!deletedTemp) {
-            deletedTemp = FileUtils.deleteQuietly(chromiumTemp);
-            try {
-                TimeUnit.MILLISECONDS.sleep(300);
-            } catch (InterruptedException e) {
-                throw new UnsupportedOperationException("Interrupts not supported.", e);
-            }
+
+        if (Files.exists(chromium.toPath())) {
+            FileUtils.forceDelete(chromium);
+        }
+
+        if (chromiumTempBin.renameTo(chromium)) {
+            FileUtils.deleteQuietly(chromiumTemp);
         }
     }
 
