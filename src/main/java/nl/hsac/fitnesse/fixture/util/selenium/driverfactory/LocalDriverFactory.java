@@ -46,6 +46,7 @@ public class LocalDriverFactory implements DriverFactory {
             Object driver;
 
             if ("firefoxdriver".equalsIgnoreCase(driverClass.getSimpleName())) {
+                WebDriverManager.firefoxdriver().cachePath(chromiumFactory.getLoc("webdriver"));
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxProfile fxProfile = getFirefoxProfile(profile);
                 FirefoxOptions options = new FirefoxOptions().setProfile(fxProfile);
@@ -61,16 +62,19 @@ public class LocalDriverFactory implements DriverFactory {
                     }
                 }
 
+                WebDriverManager.chromedriver().cachePath(chromiumFactory.getLoc("webdriver"));
                 WebDriverManager.chromedriver().browserVersionDetectionCommand("chromium-browser --version");
                 WebDriverManager.chromedriver().setup();
                 DesiredCapabilities capabilities = getChromeMobileCapabilities(profile);
                 DriverFactory.addDefaultCapabilities(capabilities);
                 driver = new ChromeDriver(capabilities);
             } else if ("internetexplorerdriver".equalsIgnoreCase(driverClass.getSimpleName())) {
+                WebDriverManager.iedriver().cachePath(chromiumFactory.getLoc("webdriver"));
                 WebDriverManager.iedriver().setup();
                 InternetExplorerOptions ieOptions = getInternetExplorerOptions(profile);
                 driver = new InternetExplorerDriver(ieOptions);
             } else if ("edgedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
+                WebDriverManager.edgedriver().cachePath(chromiumFactory.getLoc("webdriver"));
                 WebDriverManager.edgedriver().setup();
                 DesiredCapabilities edgeOptions = getChromiumEdgeOptions(profile);
                 driver = new EdgeDriver(edgeOptions);
