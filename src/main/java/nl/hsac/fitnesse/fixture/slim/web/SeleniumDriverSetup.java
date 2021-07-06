@@ -4,11 +4,7 @@ import nl.hsac.fitnesse.fixture.Environment;
 import nl.hsac.fitnesse.fixture.slim.SlimFixture;
 import nl.hsac.fitnesse.fixture.util.selenium.SauceLabsHelper;
 import nl.hsac.fitnesse.fixture.util.selenium.SeleniumHelper;
-import nl.hsac.fitnesse.fixture.util.selenium.driverfactory.DriverFactory;
-import nl.hsac.fitnesse.fixture.util.selenium.driverfactory.DriverManager;
-import nl.hsac.fitnesse.fixture.util.selenium.driverfactory.LocalDriverFactory;
-import nl.hsac.fitnesse.fixture.util.selenium.driverfactory.ProjectDriverFactoryFactory;
-import nl.hsac.fitnesse.fixture.util.selenium.driverfactory.RemoteDriverFactory;
+import nl.hsac.fitnesse.fixture.util.selenium.driverfactory.*;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -38,8 +34,9 @@ public class SeleniumDriverSetup extends SlimFixture {
 
     /**
      * Sets system property (needed by the WebDriver to be set up).
+     *
      * @param propName name of property to set.
-     * @param value value to set.
+     * @param value    value to set.
      * @return true.
      */
     public boolean setPropertyValue(String propName, String value) {
@@ -53,8 +50,9 @@ public class SeleniumDriverSetup extends SlimFixture {
 
     /**
      * Creates an instance of the specified class an injects it into SeleniumHelper, so other fixtures can use it.
+     *
      * @param driverClassName name of Java class of WebDriver to use.
-     * @param profile profile to use (for firefox, chrome mobile and IE only for now)
+     * @param profile         profile to use (for firefox, chrome mobile and IE only for now)
      * @return true if instance was created and injected into SeleniumHelper.
      * @throws Exception if no instance could be created.
      */
@@ -70,6 +68,7 @@ public class SeleniumDriverSetup extends SlimFixture {
 
     /**
      * Creates an instance of the specified class an injects it into SeleniumHelper, so other fixtures can use it.
+     *
      * @param driverClassName name of Java class of WebDriver to use.
      * @return true if instance was created and injected into SeleniumHelper.
      * @throws Exception if no instance could be created.
@@ -82,6 +81,7 @@ public class SeleniumDriverSetup extends SlimFixture {
      * Starts a local instance of the selenium driver for the specified browser
      * (using defaults to determine the correct class and configuration properties).
      * and injects it into SeleniumHelper, so other fixtures can use it.
+     *
      * @param browser name of browser to connect to.
      * @param profile setting of the browser (for firefox, chrome mobile and IE only for now)
      * @return true if instance was created and injected into SeleniumHelper.
@@ -103,8 +103,9 @@ public class SeleniumDriverSetup extends SlimFixture {
 
     /**
      * Connects SeleniumHelper to a remote web driver, without specifying browser version.
+     *
      * @param browser name of browser to connect to.
-     * @param url url to connect to browser.
+     * @param url     url to connect to browser.
      * @return true.
      * @throws MalformedURLException if supplied url can not be transformed to URL.
      */
@@ -115,9 +116,10 @@ public class SeleniumDriverSetup extends SlimFixture {
 
     /**
      * Connects SeleniumHelper to a remote web driver, without specifying browser version.
-     * @param browser name of browser to connect to.
+     *
+     * @param browser      name of browser to connect to.
      * @param platformName platform browser must run on.
-     * @param url url to connect to browser.
+     * @param url          url to connect to browser.
      * @return true.
      * @throws MalformedURLException if supplied url can not be transformed to URL.
      */
@@ -128,10 +130,11 @@ public class SeleniumDriverSetup extends SlimFixture {
 
     /**
      * Connects SeleniumHelper to a remote web driver.
-     * @param browser name of browser to connect to.
-     * @param version version of browser.
+     *
+     * @param browser      name of browser to connect to.
+     * @param version      version of browser.
      * @param platformName platform browser must run on.
-     * @param url url to connect to browser.
+     * @param url          url to connect to browser.
      * @return true.
      * @throws MalformedURLException if supplied url can not be transformed to URL.
      */
@@ -161,7 +164,7 @@ public class SeleniumDriverSetup extends SlimFixture {
     public boolean connectToDriverAtWithJsonCapabilities(String url, String capabilitiesInJson)
             throws MalformedURLException {
         Map<String, Object> desiredCapabilities = getEnvironment().getJsonHelper().jsonStringToMap(capabilitiesInJson);
-        return connectToDriverAtWithCapabilities (url, desiredCapabilities);
+        return connectToDriverAtWithCapabilities(url, desiredCapabilities);
     }
 
     public String driverDescription() {
@@ -283,6 +286,7 @@ public class SeleniumDriverSetup extends SlimFixture {
 
     /**
      * Stops the current driver registered in the SeleniumHelper.
+     *
      * @return true.
      */
     public boolean stopDriver() {

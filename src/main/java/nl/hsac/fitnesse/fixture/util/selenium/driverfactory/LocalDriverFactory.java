@@ -49,9 +49,8 @@ public class LocalDriverFactory implements DriverFactory {
             if ("firefoxdriver".equalsIgnoreCase(driverClass.getSimpleName())) {
                 WebDriverManager.firefoxdriver().cachePath(chromiumFactory.getLoc("webdriver"));
                 WebDriverManager.firefoxdriver().setup();
-                FirefoxProfile fxProfile = getFirefoxProfile(profile);
-                FirefoxOptions options = new FirefoxOptions().setProfile(fxProfile);
-                driver = new FirefoxDriver(options);
+                DesiredCapabilities desiredCapabilities = getFirefoxCapabilities(profile);
+                driver = new FirefoxDriver(desiredCapabilities);
             } else if ("chromedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
                 if (SystemUtils.IS_OS_WINDOWS && Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
                     ChromiumFactory.TagAndUrl tagAndUrl = chromiumFactory.downloadChromium();
@@ -126,24 +125,34 @@ public class LocalDriverFactory implements DriverFactory {
      * @param profile setting from subtable
      * @return firefox profile with specified settings
      */
+
     public static FirefoxProfile getFirefoxProfile(Map<String, Object> profile) {
         FirefoxProfile fxProfile = new FirefoxProfile();
-        if (profile != null) {
-            for (Map.Entry<String, Object> profileEntry : profile.entrySet()) {
-                String key = profileEntry.getKey();
-                Object value = profileEntry.getValue();
-                if (value instanceof Boolean) {
-                    fxProfile.setPreference(key, (Boolean) value);
-                } else if (value instanceof Integer) {
-                    fxProfile.setPreference(key, (Integer) value);
-                } else if (value == null) {
-                    fxProfile.setPreference(key, null);
-                } else {
-                    fxProfile.setPreference(key, value.toString());
-                }
+        for (Map.Entry<String, Object> profileEntry : profile.entrySet()) {
+            String key = profileEntry.getKey();
+            Object value = profileEntry.getValue();
+            if (value instanceof Boolean) {
+                fxProfile.setPreference(key, (Boolean) value);
+            } else if (value instanceof Integer) {
+                fxProfile.setPreference(key, (Integer) value);
+            } else if (value == null) {
+                fxProfile.setPreference(key, null);
+            } else {
+                fxProfile.setPreference(key, value.toString());
             }
         }
+
         return fxProfile;
+    }
+
+    public static DesiredCapabilities getFirefoxCapabilities(Map<String, Object> profile) {
+        DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+
+        if (profile != null) {
+            capabilities.setCapability(FirefoxOptions.FIREFOX_OPTIONS, profile);
+        }
+
+        return capabilities;
     }
 
     public static DesiredCapabilities getChromeMobileCapabilities(Map<String, Object> profile) throws IOException {
