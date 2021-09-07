@@ -158,7 +158,7 @@ public class LocalDriverFactory implements DriverFactory {
     public static DesiredCapabilities getChromeMobileCapabilities(Map<String, Object> profile) throws IOException {
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
 
-        if (Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
+        if (SystemUtils.IS_OS_WINDOWS && Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
             if (profile == null) {
                 profile = new HashMap<>();
             }
