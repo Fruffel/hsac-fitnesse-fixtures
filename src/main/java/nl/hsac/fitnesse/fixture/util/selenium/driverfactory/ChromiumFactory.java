@@ -65,7 +65,7 @@ public class ChromiumFactory {
     }
 
     public Matcher getMatcherFromTag(String tag) {
-        String regex = "([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)";
+        String regex = "(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)";
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(tag);
     }
