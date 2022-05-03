@@ -157,7 +157,7 @@ public class SeleniumDriverSetup extends SlimFixture {
         FirefoxProfile fxProfile = getFirefoxProfile(profile);
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability("browserName", "firefox");
-        desiredCapabilities.setCapability(FirefoxDriver.PROFILE, fxProfile);
+        desiredCapabilities.setCapability(FirefoxDriver.Capability.PROFILE, fxProfile);
         return createAndSetRemoteDriver(url, desiredCapabilities);
     }
 
