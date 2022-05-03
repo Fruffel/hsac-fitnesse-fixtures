@@ -87,7 +87,7 @@ public class LocalDriverFactory implements DriverFactory {
                 DriverFactory.addDefaultCapabilities(edgeOptions);
                 driver = new EdgeDriver(edgeOptions);
             } else {
-                driver = driverClass.newInstance();
+                driver = driverClass.getDeclaredConstructor().newInstance();
             }
 
             return (WebDriver) driver;
@@ -172,6 +172,11 @@ public class LocalDriverFactory implements DriverFactory {
      */
     @SuppressWarnings("unchecked")
     private static <T extends ChromiumOptions<?>> T createChromiumOptions(T options, Map<String, Object> profile) throws IOException {
+        if (SystemUtils.IS_OS_WINDOWS && Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
+            String binary = Paths.get(chromiumFactory.getLoc("chromium/chrome.exe")).toString();
+            options.setBinary(binary);
+        }
+
         if (profile == null) {
             return options;
         }
@@ -196,10 +201,7 @@ public class LocalDriverFactory implements DriverFactory {
                     }
                     break;
                 case "binary":
-                    if (SystemUtils.IS_OS_WINDOWS && Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
-                        String binary = Paths.get(chromiumFactory.getLoc("chromium/chrome.exe")).toString();
-                        options.setBinary(binary);
-                    }
+                    options.setBinary(String.valueOf(profileEntry.getValue()));
                     break;
                 case "proxy":
                     if (profileEntry.getValue() instanceof Map) {

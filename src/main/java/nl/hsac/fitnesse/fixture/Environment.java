@@ -135,7 +135,7 @@ public class Environment {
      */
     public <T> T createInstance(Class<T> clazz) {
         try {
-            return clazz.newInstance();
+            return clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new RuntimeException("Unable to create instance of: " + clazz.getName(), e);
         }
