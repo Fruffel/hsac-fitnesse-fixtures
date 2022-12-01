@@ -7,26 +7,18 @@ import nl.hsac.fitnesse.fixture.slim.web.BrowserTest;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
-import org.openqa.selenium.devtools.v97.emulation.Emulation;
-import org.openqa.selenium.devtools.v97.fetch.Fetch;
-import org.openqa.selenium.devtools.v97.fetch.model.RequestPattern;
-import org.openqa.selenium.devtools.v97.fetch.model.RequestStage;
-import org.openqa.selenium.devtools.v97.log.Log;
-import org.openqa.selenium.devtools.v97.network.Network;
-import org.openqa.selenium.devtools.v97.network.model.Cookie;
-import org.openqa.selenium.devtools.v97.network.model.CookiePriority;
-import org.openqa.selenium.devtools.v97.network.model.CookieSameSite;
-import org.openqa.selenium.devtools.v97.network.model.Headers;
-import org.openqa.selenium.devtools.v97.network.model.RequestId;
-import org.openqa.selenium.devtools.v97.network.model.RequestWillBeSent;
-import org.openqa.selenium.devtools.v97.network.model.ResourceType;
-import org.openqa.selenium.devtools.v97.network.model.ResponseReceived;
-import org.openqa.selenium.devtools.v97.network.model.TimeSinceEpoch;
-import org.openqa.selenium.devtools.v97.page.Page;
-import org.openqa.selenium.devtools.v97.performance.Performance;
-import org.openqa.selenium.devtools.v97.performance.model.Metric;
-import org.openqa.selenium.devtools.v97.runtime.Runtime;
-import org.openqa.selenium.devtools.v97.security.Security;
+import org.openqa.selenium.devtools.v107.emulation.Emulation;
+import org.openqa.selenium.devtools.v107.fetch.Fetch;
+import org.openqa.selenium.devtools.v107.fetch.model.RequestPattern;
+import org.openqa.selenium.devtools.v107.fetch.model.RequestStage;
+import org.openqa.selenium.devtools.v107.log.Log;
+import org.openqa.selenium.devtools.v107.network.Network;
+import org.openqa.selenium.devtools.v107.network.model.*;
+import org.openqa.selenium.devtools.v107.page.Page;
+import org.openqa.selenium.devtools.v107.performance.Performance;
+import org.openqa.selenium.devtools.v107.performance.model.Metric;
+import org.openqa.selenium.devtools.v107.runtime.Runtime;
+import org.openqa.selenium.devtools.v107.security.Security;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -42,6 +34,7 @@ import static java.util.Optional.empty;
 
 /**
  * Examples
+ *
  * @param <T>
  */
 public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
@@ -130,7 +123,7 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
      */
     public void setCookieWithValueForDomain(String name, String value, String domain) {
         devTools.send(Network.setCookie(name, value, empty(), Optional.of(domain),
-                empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty()));
+                empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty()));
     }
 
     /**
@@ -151,6 +144,7 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
                 Optional.of(CookieSameSite.fromString(String.valueOf(cookieData.get("sameSite")))),
                 Optional.of(new TimeSinceEpoch(new BigInteger(String.valueOf(cookieData.get("expires"))))),
                 Optional.of(CookiePriority.fromString(String.valueOf(cookieData.get("priority")))),
+                empty(),
                 empty(),
                 empty(),
                 empty()
@@ -237,8 +231,7 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
 
     private String formattedConsoleLog(List<String> logEntryList) {
         devTools.send(Log.enable());
-        String logView = logEntryList.stream().map(entry -> entry + "\r\n").collect(Collectors.joining());
-        return logView;
+        return logEntryList.stream().map(entry -> entry + "\r\n").collect(Collectors.joining());
     }
 
     /**
