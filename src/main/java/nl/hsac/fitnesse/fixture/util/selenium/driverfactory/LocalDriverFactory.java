@@ -49,40 +49,46 @@ public class LocalDriverFactory implements DriverFactory {
     @Override
     public WebDriver createDriver() {
         Class<?> driverClass = getDriverClass();
+
         try {
             Object driver;
 
             if ("firefoxdriver".equalsIgnoreCase(driverClass.getSimpleName())) {
-                WebDriverManager.firefoxdriver().cachePath(chromiumFactory.getLoc("webdriver"));
-                WebDriverManager.firefoxdriver().setup();
+                WebDriverManager wd = WebDriverManager.firefoxdriver();
+                wd.cachePath(chromiumFactory.getLoc("webdriver"));
+                wd.setup();
                 FirefoxProfile fxProfile = getFirefoxProfile(profile);
                 FirefoxOptions options = new FirefoxOptions().setProfile(fxProfile);
                 driver = new FirefoxDriver(options);
             } else if ("chromedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
+                WebDriverManager wd = WebDriverManager.chromedriver();
+
                 if (SystemUtils.IS_OS_WINDOWS && Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
                     ChromiumFactory.TagAndUrl tagAndUrl = chromiumFactory.downloadChromium();
                     if (tagAndUrl.getTag() != null) {
                         Matcher matcher = chromiumFactory.getMatcherFromTag(tagAndUrl.getTag());
                         if (matcher.find()) {
-                            WebDriverManager.chromedriver().browserVersion(matcher.group(1));
+                            wd.browserVersion(matcher.group(1));
                         }
                     }
                 }
 
-                WebDriverManager.chromedriver().cachePath(chromiumFactory.getLoc("webdriver"));
-                WebDriverManager.chromedriver().browserVersionDetectionCommand("chromium-browser --version");
-                WebDriverManager.chromedriver().setup();
+                wd.cachePath(chromiumFactory.getLoc("webdriver"));
+                wd.browserVersionDetectionCommand("chromium-browser --version");
+                wd.setup();
                 ChromeOptions chromeOptions = createChromiumOptions(new ChromeOptions(), profile);
                 DriverFactory.addDefaultCapabilities(chromeOptions);
                 driver = new ChromeDriver(chromeOptions);
             } else if ("internetexplorerdriver".equalsIgnoreCase(driverClass.getSimpleName())) {
-                WebDriverManager.iedriver().cachePath(chromiumFactory.getLoc("webdriver"));
-                WebDriverManager.iedriver().setup();
+                WebDriverManager wd = WebDriverManager.iedriver();
+                wd.cachePath(chromiumFactory.getLoc("webdriver"));
+                wd.setup();
                 InternetExplorerOptions ieOptions = getInternetExplorerOptions(profile);
                 driver = new InternetExplorerDriver(ieOptions);
             } else if ("edgedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
-                WebDriverManager.edgedriver().cachePath(chromiumFactory.getLoc("webdriver"));
-                WebDriverManager.edgedriver().setup();
+                WebDriverManager wd = WebDriverManager.edgedriver();
+                wd.cachePath(chromiumFactory.getLoc("webdriver"));
+                wd.setup();
                 EdgeOptions edgeOptions = createChromiumOptions(new EdgeOptions(), profile);
                 DriverFactory.addDefaultCapabilities(edgeOptions);
                 driver = new EdgeDriver(edgeOptions);
