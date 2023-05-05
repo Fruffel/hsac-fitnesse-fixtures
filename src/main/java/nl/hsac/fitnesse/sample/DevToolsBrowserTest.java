@@ -4,29 +4,27 @@ import fitnesse.util.Base64;
 import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
 import nl.hsac.fitnesse.fixture.slim.StopTestException;
 import nl.hsac.fitnesse.fixture.slim.web.BrowserTest;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
-import org.openqa.selenium.devtools.v107.emulation.Emulation;
-import org.openqa.selenium.devtools.v107.fetch.Fetch;
-import org.openqa.selenium.devtools.v107.fetch.model.RequestPattern;
-import org.openqa.selenium.devtools.v107.fetch.model.RequestStage;
-import org.openqa.selenium.devtools.v107.log.Log;
-import org.openqa.selenium.devtools.v107.network.Network;
-import org.openqa.selenium.devtools.v107.network.model.*;
-import org.openqa.selenium.devtools.v107.page.Page;
-import org.openqa.selenium.devtools.v107.performance.Performance;
-import org.openqa.selenium.devtools.v107.performance.model.Metric;
-import org.openqa.selenium.devtools.v107.runtime.Runtime;
-import org.openqa.selenium.devtools.v107.security.Security;
+import org.openqa.selenium.devtools.v112.emulation.Emulation;
+import org.openqa.selenium.devtools.v112.fetch.Fetch;
+import org.openqa.selenium.devtools.v112.fetch.model.RequestPattern;
+import org.openqa.selenium.devtools.v112.fetch.model.RequestStage;
+import org.openqa.selenium.devtools.v112.log.Log;
+import org.openqa.selenium.devtools.v112.network.Network;
+import org.openqa.selenium.devtools.v112.network.model.*;
+import org.openqa.selenium.devtools.v112.page.Page;
+import org.openqa.selenium.devtools.v112.performance.Performance;
+import org.openqa.selenium.devtools.v112.performance.model.Metric;
+import org.openqa.selenium.devtools.v112.runtime.Runtime;
+import org.openqa.selenium.devtools.v112.security.Security;
+import org.openqa.selenium.remote.Augmenter;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
@@ -46,7 +44,7 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
 
     /**
      * Experimental class leveraging selenium 4's devTools api's. Use with devTools enabled browser
-     * Current api: v97
+     * Current api: v106
      */
 
     public DevToolsBrowserTest() {
@@ -68,10 +66,11 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
     }
 
     private void ensureDevToolsEnabledDriver() {
-        if (!(getSeleniumHelper().driver() instanceof HasDevTools)) {
+        WebDriver driver = new Augmenter().augment(getSeleniumHelper().driver());
+        if (!(driver instanceof HasDevTools)) {
             throw new StopTestException(false, "DevTools enabled Browser Test can only be used with a chromium based browser (Chrome/Edge)");
         }
-        devTools = ((HasDevTools) getSeleniumHelper().driver()).getDevTools();
+        devTools = ((HasDevTools) driver).getDevTools();
         devTools.createSessionIfThereIsNotOne();
         devTools.send(Network.enable(Optional.of(100000), Optional.of(100000), Optional.of(100000)));
     }
@@ -123,7 +122,8 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
      */
     public void setCookieWithValueForDomain(String name, String value, String domain) {
         devTools.send(Network.setCookie(name, value, empty(), Optional.of(domain),
-                empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty()));
+                empty(), empty(), empty(), empty(), empty(), empty(),
+                empty(), empty(), empty(), empty()));
     }
 
     /**
@@ -231,7 +231,8 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
 
     private String formattedConsoleLog(List<String> logEntryList) {
         devTools.send(Log.enable());
-        return logEntryList.stream().map(entry -> entry + "\r\n").collect(Collectors.joining());
+        String logView = logEntryList.stream().map(entry -> entry + "\r\n").collect(Collectors.joining());
+        return logView;
     }
 
     /**

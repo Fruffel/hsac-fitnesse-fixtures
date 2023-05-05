@@ -15,13 +15,11 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -172,6 +170,7 @@ public class LocalDriverFactory implements DriverFactory {
 
     /**
      * Append to a ChromiumOptions object from a map and provide readable exception messages if options can not be mapped
+     *
      * @param options The options to append to
      * @param profile The map of chromium configuration options
      * @return the appended options object

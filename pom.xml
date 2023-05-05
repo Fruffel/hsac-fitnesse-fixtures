@@ -6,7 +6,7 @@
 
     <groupId>nl.hsac</groupId>
     <artifactId>hsac-fitnesse-fixtures</artifactId>
-    <version>5.3.0-FRUFFEL</version>
+    <version>5.4.0-FRUFFEL</version>
     <url>https://github.com/fruffel/hsac-fitnesse-fixtures</url>
     <name>HSAC's FitNesse Fixtures</name>
     <description>Fixtures to assist in testing via FitNesse</description>
@@ -43,7 +43,7 @@
 		<hsac-fitnesse-plugin.version>1.32.2</hsac-fitnesse-plugin.version>
 		<fitnesse.version>20221102</fitnesse.version>
         <praegus-toolchain-fitnesse-plugin.version>2.0.14</praegus-toolchain-fitnesse-plugin.version>
-        <selenium.version>4.6.0</selenium.version>
+        <selenium.version>4.9.0</selenium.version>
         <slf4j.version>2.0.5</slf4j.version>
         <apache.http.version>4.5.13</apache.http.version>
         <surefire.version>2.22.1</surefire.version>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>2.3.31</version>
+            <version>2.3.32</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -208,12 +208,12 @@
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.8.0</version>
+            <version>3.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.22</version>
+            <version>1.23.0</version>
         </dependency>
         <!-- Testing -->
         <dependency>
@@ -225,7 +225,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>4.9.0</version>
+            <version>5.3.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -237,11 +237,31 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.3.1</version>
+            <version>5.3.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.github.docker-java</groupId>
                     <artifactId>docker-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcpkix-jdk15on</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents.client5</groupId>
+                    <artifactId>httpclient5</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -358,7 +378,7 @@
                         <property>
                             <name>listener</name>
                             <value>
-                                fitnesse.junit.JUnitXMLPerPageRunListener,nl.hsac.fitnesse.junit.ProgressLoggerListener${extraFailsafeListeners}
+                                nl.hsac.fitnesse.junit.JUnitXMLPerPageRunListener,nl.hsac.fitnesse.junit.ProgressLoggerListener${extraFailsafeListeners}
                             </value>
                         </property>
                     </properties>
