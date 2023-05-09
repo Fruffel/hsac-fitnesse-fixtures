@@ -64,7 +64,15 @@ public class JUnitXMLTestResultRecorder {
             failureXml = "<failure type=\"" + throwable.getClass().getName() + "\" message=\"" + this.getMessage(throwable) + "\"></failure>";
         }
 
-        String xml = "<testsuite errors=\"" + errors + "\" skipped=\"" + skipped + "\" tests=\"1\" time=\"" + executionTime + "\" failures=\"" + failures + "\" name=\"" + testName + "\"><properties></properties><tags>" + String.join(",", tags) + "</tags><testcase classname=\"" + testName + "\" time=\"" + executionTime + "\" name=\"" + testName + "\">" + failureXml + "</testcase></testsuite>";
+        String status = "passed";
+        if (failures > 0) {
+            status = "failure";
+        } else if (errors > 0) {
+            status = "error";
+        }
+
+
+        String xml = "<testsuite errors=\"" + errors + "\" skipped=\"" + skipped + "\" tests=\"1\" time=\"" + executionTime + "\" failures=\"" + failures + "\" name=\"" + testName + "\"><properties></properties><status>" + status + "</status><comment></comment><tags>" + String.join(",", tags) + "</tags><testcase classname=\"" + testName + "\" time=\"" + executionTime + "\" name=\"" + testName + "\">" + failureXml + "</testcase></testsuite>";
         return prettyPrint(xml);
     }
 
@@ -74,7 +82,6 @@ public class JUnitXMLTestResultRecorder {
     }
 
     private String prettyPrint(String xmlString) {
-
         try {
             InputSource src = new InputSource(new StringReader(xmlString));
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(src);
