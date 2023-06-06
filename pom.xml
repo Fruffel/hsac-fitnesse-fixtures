@@ -41,18 +41,18 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<hsac-fitnesse-plugin.version>1.32.2</hsac-fitnesse-plugin.version>
-		<fitnesse.version>20221102</fitnesse.version>
-        <praegus-toolchain-fitnesse-plugin.version>2.0.14</praegus-toolchain-fitnesse-plugin.version>
-        <selenium.version>4.9.0</selenium.version>
-        <slf4j.version>2.0.5</slf4j.version>
-        <apache.http.version>4.5.13</apache.http.version>
-        <surefire.version>2.22.1</surefire.version>
+		<fitnesse.version>20230503</fitnesse.version>
+        <praegus-toolchain-fitnesse-plugin.version>2.0.16</praegus-toolchain-fitnesse-plugin.version>
+        <selenium.version>4.9.1</selenium.version>
+        <slf4j.version>2.0.7</slf4j.version>
+        <apache.http.version>4.5.14</apache.http.version>
+        <surefire.version>3.1.0</surefire.version>
 
         <webdriver.download.skip>false</webdriver.download.skip>
-        <selenium.internetexplorerdriver.version>3.150.1</selenium.internetexplorerdriver.version>
-        <selenium.edgedriver.version>100.0.1185.29</selenium.edgedriver.version>
-        <selenium.chromedriver.version>100.0.4896.60</selenium.chromedriver.version>
-        <selenium.geckodriver.version>0.30.0</selenium.geckodriver.version>
+        <selenium.internetexplorerdriver.version>4.8.1</selenium.internetexplorerdriver.version>
+        <selenium.edgedriver.version>113.0.1774.9</selenium.edgedriver.version>
+        <selenium.chromedriver.version>113.0.5672.24</selenium.chromedriver.version>
+        <selenium.geckodriver.version>0.33.0</selenium.geckodriver.version>
 
         <!-- classpath that Fitnesse uses when not starting from IDE/maven -->
         <standalone.classpath>wiki/fixtures</standalone.classpath>
@@ -225,7 +225,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.3.1</version>
+            <version>2.28.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -275,8 +275,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
