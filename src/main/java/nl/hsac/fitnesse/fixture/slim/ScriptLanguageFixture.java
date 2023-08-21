@@ -1,13 +1,6 @@
 package nl.hsac.fitnesse.fixture.slim;
 
-import jdk.nashorn.internal.runtime.ECMAException;
-
-import javax.script.Invocable;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import javax.script.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,6 +102,7 @@ public class ScriptLanguageFixture extends SlimFixtureWithMap {
 
     /**
      * Retrieves value for output column.
+     *
      * @param headerName header of output column (without trailing '?').
      * @return value from engine.
      */
@@ -151,8 +145,8 @@ public class ScriptLanguageFixture extends SlimFixtureWithMap {
     protected RuntimeException getExceptionToThrow(ScriptException e) {
         Throwable cause = e.getCause();
         String message;
-        if (cause instanceof ECMAException) {
-            message = cause.toString();
+        if (cause instanceof RuntimeException) {
+            message = cause.getMessage();
         } else {
             message = e.getMessage();
         }
@@ -161,7 +155,7 @@ public class ScriptLanguageFixture extends SlimFixtureWithMap {
 
     protected void putAllValues() {
         ScriptEngine e = getEngine();
-        getCurrentValues().forEach((k,v) -> e.put(k, v));
+        getCurrentValues().forEach((k, v) -> e.put(k, v));
     }
 
 }
