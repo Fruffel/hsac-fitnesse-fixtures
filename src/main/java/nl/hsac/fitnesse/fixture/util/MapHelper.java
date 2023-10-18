@@ -1,13 +1,8 @@
 package nl.hsac.fitnesse.fixture.util;
 
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +12,8 @@ public class MapHelper {
 
     /**
      * Gets value from map.
-     * @param map map to get value from.
+     *
+     * @param map  map to get value from.
      * @param name name of (possibly nested) property to get value from.
      * @return value found, if it could be found, null otherwise.
      */
@@ -49,9 +45,10 @@ public class MapHelper {
 
     /**
      * Stores value in map.
+     *
      * @param value value to be passed.
-     * @param name name to use this value for.
-     * @param map map to store value in.
+     * @param name  name to use this value for.
+     * @param map   map to store value in.
      */
     public void setValueForIn(Object value, String name, Map<String, Object> map) {
         if (isListName(name)) {
@@ -100,26 +97,28 @@ public class MapHelper {
 
     /**
      * Adds a value to the end of a list.
+     *
      * @param value value to be passed.
-     * @param name name to use this value for.
-     * @param map map to store value in.
+     * @param name  name to use this value for.
+     * @param map   map to store value in.
      */
     public void addValueToIn(Object value, String name, Map<String, Object> map) {
         Object val = getValue(map, name);
-         if (val instanceof Collection) {
-             Object cleanValue = getCleanValue(value);
-             ((Collection) val).add(cleanValue);
-         } else if (val == null) {
-             setValueForIn(value, name + "[0]", map);
-         } else {
+        if (val instanceof Collection) {
+            Object cleanValue = getCleanValue(value);
+            ((Collection) val).add(cleanValue);
+        } else if (val == null) {
+            setValueForIn(value, name + "[0]", map);
+        } else {
             throw new SlimFixtureException(false, "name is not a list but: " + val.getClass().getSimpleName());
-         }
+        }
     }
 
     /**
      * Adds all values in the otherMap to map.
+     *
      * @param otherMap to obtain values from.
-     * @param map map to store value in.
+     * @param map      map to store value in.
      */
     public void copyValuesFromTo(Map<String, Object> otherMap, Map<String, Object> map) {
         map.putAll(otherMap);
@@ -127,9 +126,10 @@ public class MapHelper {
 
     /**
      * Stores list of values in map.
+     *
      * @param values comma separated list of values.
-     * @param name name to use this list for.
-     * @param map map to store values in.
+     * @param name   name to use this list for.
+     * @param map    map to store values in.
      */
     public void setValuesForIn(String values, String name, Map<String, Object> map) {
         String cleanName = htmlCleaner.cleanupValue(name);
@@ -165,6 +165,7 @@ public class MapHelper {
 
     /**
      * Determines whether map one's content matches two.
+     *
      * @param one map the check content of.
      * @param two other map to check.
      * @return true if both maps are equal.
@@ -179,8 +180,9 @@ public class MapHelper {
 
     /**
      * Determines size of either (Map or Collection) value in the map.
+     *
      * @param expr expression indicating which (possibly nested) value in the map to determine size of.
-     * @param map map to find value in.
+     * @param map  map to find value in.
      * @return size of value.
      * @throws SlimFixtureException if the value found is not a Map or Collection.
      */
@@ -216,12 +218,7 @@ public class MapHelper {
         Object value = null;
         String prop = getListKeyName(name);
         Object val = getValue(map, prop);
-        if (!(val instanceof List) && val instanceof ScriptObjectMirror) {
-            ScriptObjectMirror mirror = (ScriptObjectMirror) val;
-            if (mirror.isArray()) {
-                val = mirror.to(List.class);
-            }
-        }
+
         if (val instanceof List) {
             List list = (List) val;
             int index = getListIndex(name);
