@@ -8,18 +8,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
-import org.openqa.selenium.devtools.v115.emulation.Emulation;
-import org.openqa.selenium.devtools.v115.fetch.Fetch;
-import org.openqa.selenium.devtools.v115.fetch.model.RequestPattern;
-import org.openqa.selenium.devtools.v115.fetch.model.RequestStage;
-import org.openqa.selenium.devtools.v115.log.Log;
-import org.openqa.selenium.devtools.v115.network.Network;
-import org.openqa.selenium.devtools.v115.network.model.*;
-import org.openqa.selenium.devtools.v115.page.Page;
-import org.openqa.selenium.devtools.v115.performance.Performance;
-import org.openqa.selenium.devtools.v115.performance.model.Metric;
-import org.openqa.selenium.devtools.v115.runtime.Runtime;
-import org.openqa.selenium.devtools.v115.security.Security;
+import org.openqa.selenium.devtools.v121.emulation.Emulation;
+import org.openqa.selenium.devtools.v121.fetch.Fetch;
+import org.openqa.selenium.devtools.v121.fetch.model.RequestPattern;
+import org.openqa.selenium.devtools.v121.fetch.model.RequestStage;
+import org.openqa.selenium.devtools.v121.log.Log;
+import org.openqa.selenium.devtools.v121.network.Network;
+import org.openqa.selenium.devtools.v121.network.model.*;
+import org.openqa.selenium.devtools.v121.page.Page;
+import org.openqa.selenium.devtools.v121.performance.Performance;
+import org.openqa.selenium.devtools.v121.performance.model.Metric;
+import org.openqa.selenium.devtools.v121.runtime.Runtime;
+import org.openqa.selenium.devtools.v121.security.Security;
 import org.openqa.selenium.remote.Augmenter;
 
 import java.math.BigInteger;
@@ -202,7 +202,7 @@ public class DevToolsBrowserTest<T extends WebElement> extends BrowserTest<T> {
         devTools.send(Emulation.setDeviceMetricsOverride(
                 layoutMetrics.getContentSize().getWidth().intValue(),
                 layoutMetrics.getContentSize().getHeight().intValue(), 1, false,
-                empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty()));
+                empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty(), empty()));
 
         String result = takeScreenshot(baseName);
 

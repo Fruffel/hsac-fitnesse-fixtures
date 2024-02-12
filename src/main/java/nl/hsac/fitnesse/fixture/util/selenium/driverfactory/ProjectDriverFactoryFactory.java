@@ -1,6 +1,5 @@
 package nl.hsac.fitnesse.fixture.util.selenium.driverfactory;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -63,7 +62,7 @@ public class ProjectDriverFactoryFactory {
 
     protected String getExecutable(String basename) {
         String name = getExecutableForOs(basename);
-        for (int bit : new int[] {32, 64}) {
+        for (int bit : new int[]{32, 64}) {
             String exec = String.format(name, bit);
             String execPath = getAbsoluteWebDriverPath(exec);
             if (execPath != null) {
