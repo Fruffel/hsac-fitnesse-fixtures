@@ -48,11 +48,10 @@
         <apache.http.version>4.5.14</apache.http.version>
         <surefire.version>3.2.5</surefire.version>
 
-        <webdriver.download.skip>false</webdriver.download.skip>
-        <selenium.internetexplorerdriver.version>4.8.1</selenium.internetexplorerdriver.version>
-        <selenium.edgedriver.version>113.0.1774.9</selenium.edgedriver.version>
-        <selenium.chromedriver.version>113.0.5672.24</selenium.chromedriver.version>
-        <selenium.geckodriver.version>0.33.0</selenium.geckodriver.version>
+        <webdriver.download.skip>true</webdriver.download.skip>
+        <selenium.edgedriver.version>124.0.2476.0</selenium.edgedriver.version>
+        <selenium.chromedriver.version>124.0.6367.91</selenium.chromedriver.version>
+        <selenium.geckodriver.version>0.34.0</selenium.geckodriver.version>
 
         <!-- classpath that Fitnesse uses when not starting from IDE/maven -->
         <standalone.classpath>wiki/fixtures</standalone.classpath>
@@ -67,7 +66,6 @@
             <version>${fitnesse.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.tukaani</groupId>
             <artifactId>xz</artifactId>
@@ -81,6 +79,12 @@
             <version>${slf4j.version}</version>
         </dependency>
 
+        <dependency>
+            <!-- Added to override httpclient(-win) and httpmime usage -->
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.17.0</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -141,23 +145,28 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.codeborne</groupId>
-            <artifactId>phantomjsdriver</artifactId>
-            <version>1.5.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-remote-driver</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-java</artifactId>
-                </exclusion>
-            </exclusions>
+            <!-- Added to override galen's old version -->
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.17.0</version>
+        </dependency>
+        <dependency>
+            <!-- Added to override galen's old version -->
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.16.1</version>
+        </dependency>
+        <dependency>
+            <!-- Added to override galen's old version -->
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+        <dependency>
+            <!-- Added to override galen's old version -->
+            <groupId>org.mozilla</groupId>
+            <artifactId>rhino</artifactId>
+            <version>1.7.14</version>
         </dependency>
         <dependency>
             <groupId>com.galenframework</groupId>
@@ -203,7 +212,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.33</version>
+            <version>2.2</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
@@ -215,11 +224,6 @@
             <artifactId>commons-compress</artifactId>
             <version>1.26.1</version>
         </dependency>
-        <dependency>
-            <groupId>net.minidev</groupId>
-            <artifactId>json-smart</artifactId>
-            <version>2.5.1</version>
-        </dependency>
         <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
@@ -230,7 +234,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.11.0</version>
+            <version>2.28.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
