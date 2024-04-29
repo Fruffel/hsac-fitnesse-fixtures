@@ -5,7 +5,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import java.util.HashMap;
@@ -44,11 +43,6 @@ public class ProjectDriverFactoryFactory {
             }
             case "internet explorer": {
                 Class<? extends WebDriver> driver = InternetExplorerDriver.class;
-                driverClass = driver.getName();
-                break;
-            }
-            case "phantomjs": {
-                Class<? extends WebDriver> driver = PhantomJSDriver.class;
                 driverClass = driver.getName();
                 break;
             }

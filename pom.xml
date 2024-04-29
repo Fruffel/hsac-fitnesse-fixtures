@@ -6,7 +6,7 @@
 
     <groupId>nl.hsac</groupId>
     <artifactId>hsac-fitnesse-fixtures</artifactId>
-    <version>5.6.0-FRUFFEL</version>
+    <version>5.6.1-FRUFFEL</version>
     <url>https://github.com/fruffel/hsac-fitnesse-fixtures</url>
     <name>HSAC's FitNesse Fixtures</name>
     <description>Fixtures to assist in testing via FitNesse</description>
@@ -58,6 +58,18 @@
         <fitnesse.port>9090</fitnesse.port>
         <extraFailsafeListeners/>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- com.jayway.jsonpath changed json-smart dependency scope to runtime, override to use
+            it with JsonHelper -->
+            <dependency>
+                <groupId>net.minidev</groupId>
+                <artifactId>json-smart</artifactId>
+                <scope>compile</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
