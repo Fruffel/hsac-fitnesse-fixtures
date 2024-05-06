@@ -1,6 +1,7 @@
 package nl.hsac.fitnesse.fixture.util.selenium.driverfactory;
 
 import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
+import nl.hsac.fitnesse.fixture.util.selenium.DownloadChromeBrowser;
 import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +18,7 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,6 @@ public class LocalDriverFactory implements DriverFactory {
     private String driverClassName;
     private Class<? extends WebDriver> driverClass;
     private Map<String, Object> profile;
-    private static final ChromiumFactory chromiumFactory = new ChromiumFactory();
 
     protected LocalDriverFactory() {
 
@@ -54,10 +55,6 @@ public class LocalDriverFactory implements DriverFactory {
                 FirefoxOptions options = new FirefoxOptions().setProfile(fxProfile);
                 driver = new FirefoxDriver(options);
             } else if ("chromedriver".equalsIgnoreCase(driverClass.getSimpleName())) {
-                if (SystemUtils.IS_OS_WINDOWS && Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
-                    chromiumFactory.downloadChromium();
-                }
-
                 ChromeOptions chromeOptions = createChromiumOptions(new ChromeOptions(), profile);
                 DriverFactory.addDefaultCapabilities(chromeOptions);
                 driver = new ChromeDriver(chromeOptions);
@@ -155,10 +152,19 @@ public class LocalDriverFactory implements DriverFactory {
      */
     @SuppressWarnings("unchecked")
     private static <T extends ChromiumOptions<?>> T createChromiumOptions(T options, Map<String, Object> profile) throws IOException {
-        if (SystemUtils.IS_OS_WINDOWS && Boolean.parseBoolean(chromiumFactory.getProperties("chromium.use"))) {
-            String binary = Paths.get(chromiumFactory.getLoc("chromium/chrome.exe")).toString();
-            options.setBinary(binary);
+        DownloadChromeBrowser downloadChromeBrowser = new DownloadChromeBrowser();
+        String chrome = "chrome.exe";
+        String chromedriver = "chromedriver.exe";
+
+        if (SystemUtils.IS_OS_LINUX) {
+            chrome = "chrome";
+            chromedriver = "chromedriver";
         }
+
+        String binary = getLoc(Paths.get(downloadChromeBrowser.BROWSER + File.separator + chrome).toString());
+        System.setProperty("webdriver.chrome.driver",
+                Paths.get(downloadChromeBrowser.BROWSER + File.separator + chromedriver).toString());
+        options.setBinary(binary);
 
         if (profile == null) {
             return options;
@@ -197,5 +203,13 @@ public class LocalDriverFactory implements DriverFactory {
             }
         }
         return options;
+    }
+
+    public static String getLoc(String file) {
+        Path str = Paths.get(System.getProperty("user.dir"));
+        if (!System.getProperty("user.dir").contains("wiki")) {
+            str = Paths.get(System.getProperty("user.dir") + File.separator + "wiki");
+        }
+        return str + File.separator + file;
     }
 }

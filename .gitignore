@@ -52,3 +52,4 @@ wiki/chromiumTemp
 wiki/ChromiumVersion.txt
 src/main/resources/project.properties
 wiki/webdriver
+/.chrome/

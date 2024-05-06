@@ -6,7 +6,7 @@
 
     <groupId>nl.hsac</groupId>
     <artifactId>hsac-fitnesse-fixtures</artifactId>
-    <version>5.6.1-FRUFFEL</version>
+    <version>5.6.2-FRUFFEL</version>
     <url>https://github.com/fruffel/hsac-fitnesse-fixtures</url>
     <name>HSAC's FitNesse Fixtures</name>
     <description>Fixtures to assist in testing via FitNesse</description>
@@ -89,6 +89,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20240303</version>
         </dependency>
 
         <dependency>
@@ -402,6 +408,16 @@
                                 <argument>-p</argument>
                                 <argument>${fitnesse.port}</argument>
                             </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-chrome-for-testing</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>nl.hsac.fitnesse.fixture.util.selenium.DownloadChromeBrowser</mainClass>
                         </configuration>
                     </execution>
                     <execution>
