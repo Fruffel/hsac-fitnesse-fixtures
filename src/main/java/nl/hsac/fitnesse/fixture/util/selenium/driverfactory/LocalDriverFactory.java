@@ -163,7 +163,7 @@ public class LocalDriverFactory implements DriverFactory {
 
         String binary = getLoc(Paths.get(downloadChromeBrowser.BROWSER + File.separator + chrome).toString());
         System.setProperty("webdriver.chrome.driver",
-                Paths.get(downloadChromeBrowser.BROWSER + File.separator + chromedriver).toString());
+                getLoc(Paths.get(downloadChromeBrowser.BROWSER + File.separator + chromedriver).toString()));
         options.setBinary(binary);
 
         if (profile == null) {
@@ -207,8 +207,8 @@ public class LocalDriverFactory implements DriverFactory {
 
     public static String getLoc(String file) {
         Path str = Paths.get(System.getProperty("user.dir"));
-        if (!System.getProperty("user.dir").contains("wiki")) {
-            str = Paths.get(System.getProperty("user.dir") + File.separator + "wiki");
+        if (str.endsWith("wiki")) {
+            str = str.getParent();
         }
         return str + File.separator + file;
     }
